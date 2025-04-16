@@ -7,3 +7,7 @@ export default class Route {
     }
 
 }
+
+/*
+[] -> Tout le monde peut y accéder
+ */
