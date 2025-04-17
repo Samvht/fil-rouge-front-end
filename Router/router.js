@@ -24,6 +24,7 @@ const getRouteByUrl = (url) => {
 // Fonction pour charger le contenu de la page
 const LoadContentPage = async () => {
     const path = window.location.pathname;
+    console.log("Chemin actuel : ", path);
     // Récupération de l'URL actuelle
     const actualRoute = getRouteByUrl(path);
 
