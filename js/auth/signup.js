@@ -15,6 +15,7 @@ inputValidationPassword.addEventListener("keyup", validateForm);
 
 //Function permettant de valider tout le formulaire
 function validateForm(){
+    // On valide uniquement les données nettoyées
     const nomOk = validateRequired(inputNom);
     const prenomOk = validateRequired(inputPreNom);
     const mailOk = validateMail(inputMail);
@@ -29,11 +30,11 @@ function validateForm(){
     }
 }
 
-function validateMail(input){
+function validateMail(sanitizedValue, input){
     //Définir mon regex
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const mailUser = input.value; //récupération mail utilisateur
-    if(mailUser.match(emailRegex)){ //vérification regex bien présent
+    const sanitizedValue = sanitizeHtml(input.value); //récupération mail utilisateur valeur nettoyée
+    if(sanitizedValue.match(emailRegex)){ //vérification regex bien présent
         input.classList.add("is-valid");
         input.classList.remove("is-invalid"); 
         return true;
@@ -45,11 +46,11 @@ function validateMail(input){
     }
 }
 
-function validatePassword(input){
+function validatePassword(sanitizedValue, input){
     //Définir mon regex
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{10,}$/;
-    const passwordUser = input.value;
-    if(passwordUser.match(passwordRegex)){
+    const sanitizedValue = sanitizeHtml(input.value);
+    if(sanitizedValue.match(passwordRegex)){
         input.classList.add("is-valid");
         input.classList.remove("is-invalid"); 
         return true;
@@ -62,7 +63,10 @@ function validatePassword(input){
 }
 
 function validateConfirmationPassword(inputPwd, inputConfirmPwd){
-    if(inputPwd.value == inputConfirmPwd.value){
+    const sanitizedPwd = sanitizeHtml(inputPwd.value);
+    const sanitizedConfirmPwd = sanitizeHtml(inputConfirmPwd.value);
+
+    if(sanitizedPwd == sanitizedConfirmPwd){
         inputConfirmPwd.classList.add("is-valid");
         inputConfirmPwd.classList.remove("is-invalid");
         return true;
@@ -74,8 +78,9 @@ function validateConfirmationPassword(inputPwd, inputConfirmPwd){
     }
 }
 
-function validateRequired(input){
-    if(input.value != ''){
+function validateRequired(sanitizedValue, input){
+    const sanitizedValue = sanitizeHtml(input.value);
+    if(sanitizedValue != ''){
         input.classList.add("is-valid");
         input.classList.remove("is-invalid"); 
         return true;

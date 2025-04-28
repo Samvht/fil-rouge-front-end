@@ -6,6 +6,7 @@ const signoutBtn = document.getElementById("signout-btn");
 signoutBtn.addEventListener("click", signout);
 
 function signout(){
+    alert("deconnecté");
     eraseCookie(tokenCookieName);
     window.location.reload();
 }
@@ -53,4 +54,11 @@ function isConnected(){
     else{
         return true;
     }
+}
+
+//Pour nettoyer les champs des formulaires, pour eviter attaques xss
+function sanitizeHtml(text){
+    const tempHtml = document.createElement('div');
+    tempHtml.textContent = text; //neutralise les caractères dangereux
+    return tempHtml.innerHTML;
 }
